@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+
+# 引入配置文件
+# read config file
+source ./vendor/zhenggui/php-cc/phpcc.ini
+
+# 检查phplint的命令路径是否配置
+# 如果没有配置,则使用默认的路径
+# 如果配置了,则进一步检查配置的路径是否正确
+# check if phplint_path is config
+if [[ x"$phplint_path" = x ]]; then
+    phplint_path="phplint"
+else
+    ${phplint_path} --version > /dev/null
+    if [[ $? -ne 0 ]]; then
+        echo "Command phplint error, please check it and retry~"
+        exit 1
+    fi
+fi
+
+# 检查phpcs的命令路径是否配置
+# 如果没有配置,则使用默认的路径
+# 如果配置了,则进一步检查配置的路径是否正确
+# check if phpcs_path is config
+if [[ x"$phpcs_path" = x ]]; then
+    phpcs_path="phpcs"
+else
+    ${phpcs_path} --version > /dev/null
+    if [[ $? -ne 0 ]]; then
+        echo "Command phpcs error, please check it and retry~"
+        exit 1
+    fi
+fi
+
+function askContinue() {
+    read -p "Errors found, input [y/yes] to continue to commit:" content
+    if [[ ${content} == "y" || ${content} == "yes" ]] ;then
+        echo "Errors found, but continue to commit"
+        exit 1
+    fi
+    echo "Abort to commit ~"
+    exit 1
+}
+
+# 获取本次提交的差异文件
+a=`git status -s`
+
+array=(${a//,/ })
+
+echo -e "\n code Checking ..."
+
+for var in ${array[@]}
+do
+    if [[ "$var" = "M" ]] || [[ "$var" = "A" ]] || [[ "$var" = "D" ]]; then
+        continue
+    fi
+
+    # check php file
+    if [[ ! ${var} =~ ".php" ]]; then
+        echo "Check file $var: not php file, ignoring..."
+        continue
+    fi
+
+    # phplint
+    if [[ ${phplint} == "true" ]]; then
+        phplintResult=`${phplint_path} $var | grep error`
+        if [[ x"$phplintResult" != x ]]; then
+            echo -e "\n   -------------------------------------"
+            echo -e "   Git commit error, get phplint errors:"
+            ${phplint_path} ${var} | while read -r line
+            do
+                if [[ ${line} =~ ^">" ]];then
+                    echo -e " ${line}"
+                else
+                    echo -e "   ${line}"
+                fi
+            done
+            echo -e "\n"
+            # askContinue
+            exit 1
+        else
+            echo "phplint file [ $var ] success !"
+        fi
+    fi
+
+    # phpcs
+    if [[ ${phpcs} == "true" ]]; then
+        phpcsResult=`${phpcs_path} -n --standard=psr2 ${var} | grep ERROR | grep -v "0 ERRORS\|exist\|usage"`
+        if [[ x"$phpcsResult" != x ]]; then
+
+            echo -e "   Git commit error, get phpcs errors:"
+            ${phpcs_path} --standard=psr2 ${var}
+
+            echo -e "\n"
+            
+            if [[ ${phpcbf} == "true" ]]; then
+                echo -e "----------------phpcbf start---------------------"
+                phpcbf ${var}
+                ${phpcs_path} --standard=psr2 ${var}
+
+            # else
+            #     read -p "fixbug or not by phpcbf, input [y/yes] to continue to commit:" content
+            #     if [[ ${content} == "y" || ${content} == "yes" ]] ;then
+            #         echo -e "\n phpcbf start"
+            #         phpcbf ${var}
+            #         echo -e "\n phpcbf end\n"
+            #         ${phpcs_path} --standard=psr2 ${var}
+            #     fi
+            fi
+
+            # ${phpcs_path} ${var} | while read -r -n120 line
+            # do
+            #     echo "${line}"
+            # done
+
+            #askContinue
+            exit 1
+        else
+            echo "phpcs file [ $var ] success !"
+        fi
+    fi
+done
+
+echo -e "\nCongratulations! Code check success!\n"
+exit 0
