@@ -155,3 +155,4 @@ endfunc
 autocmd FileWritePre,BufWritePre *.sh,*.php,*.js,*.cpp ks|call DataInsert() |'s
 
 "SET Last Modified Time END
+

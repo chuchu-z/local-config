@@ -3,7 +3,7 @@
 # public domain worldwide. This software is distributed without any warranty. 
 # You should have received a copy of the CC0 Public Domain Dedication along 
 # with this software. 
-# If not, see <http://creativecommons.org/publicdomain/zero/1.0/>. 
+# If not, see <https://creativecommons.org/publicdomain/zero/1.0/>. 
 
 
 # System-wide profile file
@@ -12,9 +12,9 @@
 # Customizing Your Shell: http://www.dsl.org/cookbook/cookbook_5.html#SEC69
 # Consistent BackSpace and Delete Configuration:
 #   http://www.ibb.net/~anne/keyboard.html
-# The Linux Documentation Project: http://www.tldp.org/
-# The Linux Cookbook: http://www.tldp.org/LDP/linuxcookbook/html/
-# Greg's Wiki http://mywiki.wooledge.org/
+# The Linux Documentation Project: https://www.tldp.org/
+# The Linux Cookbook: https://www.tldp.org/LDP/linuxcookbook/html/
+# Greg's Wiki https://mywiki.wooledge.org/
 
 # Setup some default paths. Note that this order will allow user installed
 # software to override 'system' software.
@@ -125,6 +125,7 @@ done
 
 if [ ! "x${BASH_VERSION}" = "x" ]; then
   HOSTNAME="$(exec /usr/bin/hostname)"
+  SHELL=`which bash`
   profile_d sh
   [ -f "/etc/bash.bashrc" ] && . "/etc/bash.bashrc"
 elif [ ! "x${KSH_VERSION}" = "x" ]; then
@@ -136,6 +137,7 @@ elif [ ! "x${ZSH_VERSION}" = "x" ]; then
   profile_d sh
   profile_d zsh
   PS1='(%n@%m)[%h] %~ %% '
+  SHELL=`which zsh`
 elif [ ! "x${POSH_VERSION}" = "x" ]; then
   HOSTNAME="$(exec /usr/bin/hostname)"
   PS1="$ "
@@ -154,8 +156,7 @@ export PATH MANPATH INFOPATH PKG_CONFIG_PATH USER TMP TEMP HOSTNAME PS1 SHELL tm
 unset PATH_SEPARATOR
 
 if [ "$MAYBE_FIRST_START" = "true" ]; then
-  sh /usr/bin/regen-info.sh
-  
+
   if [ -f "/usr/bin/update-ca-trust" ]
   then 
     sh /usr/bin/update-ca-trust
@@ -179,7 +180,19 @@ if [ "$MAYBE_FIRST_START" = "true" ]; then
 fi
 unset MAYBE_FIRST_START
 
+export PS1="\\u@windows[\t]:\w\$(__git_ps1 '(%s)')\$ "
+
 #[alias]
+
+##cd dir##
+alias 'www'='cd /c/chuchu/project/workspace/'
+alias 'cdsub'="cd '/c/Users/`whoami`/AppData/Roaming/Sublime Text 3/Packages/User'"
+
+##vim file##
+alias 'vp'='vim /etc/profile'
+alias 'vv'='vim /etc/vimrc'
+alias 'sp'='source /etc/profile'
+
 ##git##
 alias 'gs'='git status'
 alias 'gaa'='git add .'
@@ -189,12 +202,12 @@ alias 'gb'='git branch'
 alias 'gd'='git diff'
 alias 'cls'='clear'
 alias 'charge'='git push charge develop'
-alias 'www'='cd /d/myPHP/WWW'
-alias 'cdsub'="cd '/c/Users/Shinelon/AppData/Roaming/Sublime Text 3/Packages/User'"
+
 alias 'push'='./push.sh'
 #alias 'review'='review() { git status --short | egrep ^*.php | sed "s/^ *//" | egrep ^[^D] | tr -s " "| cut -d" " -f 2 | xargs $1; };review'
 alias 'review'='review() { git status --short | egrep ^*.php | sed "s/^ *//" | egrep ^[^D] | tr -s " "| cut -d" " -f 2 | egrep -v database/migrations | xargs $1;};review'
 alias 'lognu'='git log --pretty='%aN' | sort | uniq -c | sort -k1 -n -r'
+
 ##ssh##
 alias 'suyo'='ssh root@suyo.tech'
 alias 'weihaha'='ssh wenjunqiang@120.76.192.53'
@@ -202,8 +215,17 @@ alias 'lesson'='ssh root@1024lesson.com'
 alias 'bmyy'='ssh root@bmyywh.com'
 alias 'shendu'='ssh root@62.234.95.35'
 alias 'wcc'='ssh chuchu@47.107.130.212'
+
+##Docker##
+alias 'dkre'='docker-compose restart'
+alias 'dkup'='docker-compose up'
+alias 'dkop'='docker-compose stop'
+alias 'dkphp'='winpty docker exec -it 6fc96b93 bash'
+
 ##artisan##
 alias 'migrate'='php artisan migrate'
 alias 'make'='php artisan make:migration'
+
 ##other##
 alias 'db'='winpty mysql -u root -p'
+
