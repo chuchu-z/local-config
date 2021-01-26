@@ -185,7 +185,7 @@ export PS1="\\u@windows[\t]:\w\$(__git_ps1 '(%s)')\$ "
 #[alias]
 
 ##cd dir##
-alias 'www'='cd /c/chuchu/project/workspace/'
+alias 'www'='cd /d/MyPHP/WWW/project/workspace/'
 alias 'cdsub'="cd '/c/Users/`whoami`/AppData/Roaming/Sublime Text 3/Packages/User'"
 
 ##vim file##
@@ -220,7 +220,7 @@ alias 'wcc'='ssh chuchu@47.107.130.212'
 alias 'dkre'='docker-compose restart'
 alias 'dkup'='docker-compose up'
 alias 'dkop'='docker-compose stop'
-alias 'dkphp'='winpty docker exec -it 6fc96b93 bash'
+alias 'dkphp'="winpty docker exec -it `docker ps -a| grep testphp7 | awk '{print $1}'` bash"
 
 ##artisan##
 alias 'migrate'='php artisan migrate'

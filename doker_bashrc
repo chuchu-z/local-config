@@ -1,0 +1,16 @@
+# .bashrc
+# /root/.bashrc
+
+# User specific aliases and functions
+
+export LANG="en_US.utf8"
+export PS1="\\u@docker[\t]:\w\$ "
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias www='cd /home/www/task_server'
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
