@@ -1,0 +1,20 @@
+if test -z "$GITTITLEPREFIX" # if not empty
+then
+    GITTITLEPREFIX="Git-Bash => " # prefix that will have current pwd appended after it
+fi
+
+if test -f ~/.config/git/git-prompt.sh
+then
+    . ~/.config/git/git-prompt.sh
+else
+    if test -n "$GITTITLE"
+    then   ##### Set window title directly to GITTITLE if not empty
+        PS1='\[\033]0;$GITTITLE\007\]'
+    else   ##### Set window title to GITTITLE PREFIX plus the PWD
+        PS1='\[\033]0;$GITTITLEPREFIX${PWD//]^[:ascii:]]/?}\007\]'
+    fi
+fi
+###### Leave the rest of the file the same
+    PS1="$PS1"'\n'
+    PS1="$PS1"'\[\033[32m\]'
+###### Etc.
