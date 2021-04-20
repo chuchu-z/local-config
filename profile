@@ -180,12 +180,17 @@ if [ "$MAYBE_FIRST_START" = "true" ]; then
 fi
 unset MAYBE_FIRST_START
 
-export PS1="\\u@windows[\t]:\w\$(__git_ps1 '(%s)')\$ "
+#export PS1="\\u@windows[\t]:\w\$(__git_ps1 '(%s)')\$ "
 
 #[alias]
 
 ##cd dir##
-alias 'www'='cd /d/MyPHP/WWW/project/workspace/'
+
+#alias .='cd ~'
+alias ..='cd ..'
+#alias ...='cd ../..'
+alias e='exit'
+alias 'www'='cd /d/MyPHP/WWW/project/workspace/www'
 alias 'cdsub'="cd '/c/Users/`whoami`/AppData/Roaming/Sublime Text 3/Packages/User'"
 
 ##vim file##
@@ -198,7 +203,7 @@ alias 'gs'='git status'
 alias 'gaa'='git add .'
 alias 'gcm'='git commit -m'
 alias 'gco'='git checkout'
-alias 'gb'='git branch'
+alias 'gb'='git branch -vvv'
 alias 'gd'='git diff'
 alias 'cls'='clear'
 alias 'charge'='git push charge develop'
@@ -215,12 +220,14 @@ alias 'lesson'='ssh root@1024lesson.com'
 alias 'bmyy'='ssh root@bmyywh.com'
 alias 'shendu'='ssh root@62.234.95.35'
 alias 'wcc'='ssh chuchu@47.107.130.212'
+alias 'chuchu'='ssh zhouyongshan@192.168.1.3'
 
 ##Docker##
 alias 'dkre'='docker-compose restart'
 alias 'dkup'='docker-compose up'
 alias 'dkop'='docker-compose stop'
 alias 'dkphp'="winpty docker exec -it `docker ps -a| grep testphp7 | awk '{print $1}'` bash"
+alias 'dkphp5'="winpty docker exec -it `docker ps -a| grep testphp5 | awk '{print $1}'` bash"
 
 ##artisan##
 alias 'migrate'='php artisan migrate'

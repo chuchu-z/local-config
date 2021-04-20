@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# 获取本次提交的差异文件
+
+if [ x$1 != x ]
+
+then
+
+    num1='1'
+    if [ x$2 != x ]; then
+        num1=$2
+    fi
+
+    num2='0.1'
+    if [ x$3 != x ]; then
+        num2=$3
+    fi
+
+    # 兼容 bitcc_administrator 替换成 newadmin
+    dir=${PWD##*/}
+    if [ $dir == "bitcc_administrator" ]
+    then
+        # dir=$(dirname $(pwd))
+        # dir=${dir##*/}
+        dir="adminnew"
+    fi
+
+    # 最新的 commitId
+    commitId=`git rev-parse --short HEAD`
+    # 当前时间 YYYYmmdd 格式
+    date=`date +%Y%m%d`
+
+    # 拼接 tag
+    tag=$dir"_"$date"_"$num1"."$commitId"."$num2
+
+    # 获取屏幕宽度
+    shellwidth=`stty size|awk '{print $2}'`
+
+    # 判断标签字符长度是否比屏幕宽度的一半还短
+    # 是的话半屏输出 =
+    if [ `expr $shellwidth / 2` > ${#tag} ]
+    then
+        shellwidth=`expr $shellwidth / 2`
+    fi
+
+    # git 命令操作 && 格式化输出
+    git tag -a $tag -m $1
+    echo $(seq -s '=' $shellwidth | sed -E 's/[0-9]//g')
+    echo -e "║ tag:" $tag
+    echo $(seq -s '=' $shellwidth | sed 's/[0-9]//g')
+    git push origin --tags
+
+else
+    echo -e "git tag -m 缺少参数\n"
+fi
+
+exit 0
