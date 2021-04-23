@@ -99,13 +99,13 @@ class resetRedisCache
         }
 
         if ($input == 'd') {
-            foreach ($redis->keys($keys."*") as $redisKey) {
+            foreach ($redis->keys(strtolower($keys)."*") as $redisKey) {
                 $redis->del($redisKey);
             }
         }
 
         if ($input == 'r') {
-            foreach ($redis->keys($keys."*") as $redisKey) {
+            foreach ($redis->keys(strtolower($keys)."*") as $redisKey) {
                 $redis->set($redisKey, '');
             }
         }

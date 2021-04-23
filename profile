@@ -185,13 +185,15 @@ unset MAYBE_FIRST_START
 #[alias]
 
 ##cd dir##
-
+alias -- -='cd -'
 #alias .='cd ~'
 alias ..='cd ..'
 #alias ...='cd ../..'
 alias e='exit'
 alias 'www'='cd /d/MyPHP/WWW/project/workspace/www'
 alias 'cdsub'="cd '/c/Users/`whoami`/AppData/Roaming/Sublime Text 3/Packages/User'"
+alias 'home'='cd /d/chuchu-z/local-config'
+alias 'cm'='cphome() { cp $1 /d/chuchu-z/local-config/ ;};cphome'
 
 ##vim file##
 alias 'vp'='vim /etc/profile'
@@ -206,9 +208,14 @@ alias 'gco'='git checkout'
 alias 'gb'='git branch -vvv'
 alias 'gd'='git diff'
 alias 'cls'='clear'
+alias -- --='git checkout -'
 alias 'charge'='git push charge develop'
+alias 'push'='git push origin `git branch --show-current`'
+alias 'fpush'='git push -f origin `git branch --show-current`'
+alias 'rpull'='git push --rebase origin `git branch --show-current`'
+alias 'pull'='git pull origin `git branch --show-current`'
 
-alias 'push'='./push.sh'
+#alias 'push'='./push.sh'
 #alias 'review'='review() { git status --short | egrep ^*.php | sed "s/^ *//" | egrep ^[^D] | tr -s " "| cut -d" " -f 2 | xargs $1; };review'
 alias 'review'='review() { git status --short | egrep ^*.php | sed "s/^ *//" | egrep ^[^D] | tr -s " "| cut -d" " -f 2 | egrep -v database/migrations | xargs $1;};review'
 alias 'lognu'='git log --pretty='%aN' | sort | uniq -c | sort -k1 -n -r'

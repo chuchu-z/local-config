@@ -29,9 +29,19 @@ then
     commitId=`git rev-parse --short HEAD`
     # 当前时间 YYYYmmdd 格式
     date=`date +%Y%m%d`
+    # 获取当前分支名
+    branch=`git branch --show-current`
+
+    # branch是否包含test, 区分是test分支的tag还是dev分支的tag
+    if [[ $branch =~ "test" ]]
+    then
+        testTag=$branch"#"
+    else
+        testTag=""
+    fi
 
     # 拼接 tag
-    tag=$dir"_"$date"_"$num1"."$commitId"."$num2
+    tag=$testTag$dir"_"$date"_"$num1"."$commitId"."$num2
 
     # 获取屏幕宽度
     shellwidth=`stty size|awk '{print $2}'`
