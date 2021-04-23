@@ -1,17 +1,31 @@
 # local-config
-my windows localhost config
+
+
+>   My Windows Localhost Config
+
+```bash
+tree -a
+```
+
+```
 .
 |-- README.md
-|-- doker_bashrc  //docker容器配置文件
-|-- git-prompt.sh //git bash 主题配置
-|-- git-prompt.sh_changeTitle //git bash 修改标题
-|-- gitUpdateUserInfo.sh //修改git 提交作者名称
-|-- phpcc //phpcc脚本
-|-- phpcc.ini //phpcc配置
-|-- postManToMarkdown.php //postman导出json转换markdown
-|-- pre-commit //git 提交前钩子
-|-- profile //etc下的配置文件
-|-- push.sh //一键提交脚本
-|-- resetRedisCache.php //重置redis的key
-|-- vimrc //vim编辑器配置
-`-- windows.sh //windows 10 创建软链接
+|-- .gitconfig                             # git 用户配置
+|-- .minttyrc                              # git bash 主题配置
+|-- doker_bashrc                           # docker 容器配置文件
+|-- git-prompt.sh                          # git bash 主题配置
+|-- git-prompt.sh_changeTitle              # git bash 修改标题(已弃用)
+|-- gitUpdateUserInfo.sh                   # 批量修改git 提交作者名称
+|-- gittag                                 # 一键生成 tag 并自动部署
+|-- phpcc                                  # phpcc 代码检查工具脚本
+|-- phpcc.ini                              # phpcc 代码检查工具配置
+|-- postManToMarkdown.php                  # postman导出json自动转换markdown格式的接口文档
+|-- pre-commit                             # git 代码提交前置钩子
+|-- profile                                # etc/profile 系统文件配置
+|-- push.sh                                # charge 项目一键提交代码部署
+|-- resetRedisCache.php                    # redis 自定义操作脚本
+|-- subl                                   # git bash 操作 sublime text 编辑器
+|-- vimrc                                  # vim 配置
+`-- windows.sh                             # windows 系统下自动初始化项目操作
+
+```
