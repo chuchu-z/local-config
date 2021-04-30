@@ -48,7 +48,7 @@ then
 
     # 判断标签字符长度是否比屏幕宽度的一半还短
     # 是的话半屏输出 =
-    if [ `expr $shellwidth / 2` > ${#tag} ]
+    if [ `expr $shellwidth / 2` -gt ${#tag} ]
     then
         shellwidth=`expr $shellwidth / 2`
     fi

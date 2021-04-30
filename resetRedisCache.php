@@ -25,61 +25,71 @@ require_once __DIR__ . "/../comm_lib/AutoLoader.php";
 
 class resetRedisCache
 {
-    public function main()
+
+    private $redis;
+
+    private $params;
+
+    private $keys;
+
+    private $redisKeysRes;
+
+    private $init = 'default';
+
+    private $type = 'get';
+
+    public function __construct()
     {
         date_default_timezone_set('Asia/Chongqing');
-        $now = date('Y-m-d H:i:s');
+        $this->validate();
+        $this->initRedis();
+        $this->getRedisKeysRes();
+        $this->setRedisKeyType();
+    }
 
-        /**
-         * $params 脚本接收参数
-         * k redis key
-         * d 删除
-         * r 重置
-         * i init
-         */
-        $params = getopt('k:d:r:i:t:p:');
+    /**
+     * $params 脚本接收参数
+     * k redis key
+     * d 删除
+     * r 重置
+     * i init
+     */
+    public function validate()
+    {
+        $this->params = getopt('k:d:r:i:t:p:');
 
-        $keys = isset($params["k"]) ? trim($params["k"]) : '';
+        $this->keys = isset($this->params["k"]) ? trim($this->params["k"]) : '';
 
-        if (empty($keys)) {
-            die("[{$now}] - 请输入要删除或重置的key [ php resetRedisCache.php -k key name]" . PHP_EOL);
+        if (empty($this->keys)) {
+            die(PHP_EOL . "[". date('Y-m-d H:i:s') ."] - 请输入要删除或重置的key [ php resetRedisCache.php -k key name]" . PHP_EOL);
+        }
+    }
+
+    /**
+     * 选择初始化哪一个redis, 默认 default, 其他: depth, sns, trade
+     */
+    public function initRedis()
+    {
+        if (isset($this->params["i"])) {
+            $this->init = trim($this->params["i"]);
         }
 
-        /**
-         * 选择初始化哪一个redis, 默认 default, 其他: depth, sns
-         */
-        $init = 'default';
-        if (isset($params["i"])) {
-            $init = isset($params["i"]) ? trim($params["i"]) : 'default';
-        }
+        $this->redis = Cache::init('Redis', $this->init)->getResource();
+    }
 
-        /**
-         * 选择初始化哪一个redis, 默认depth
-         */
-        $type = 'get';
-        if (isset($params["t"])) {
-            $type = isset($params["t"]) ? trim($params["t"]) : 'get';
-        }
-
-        $redis = Cache::init('Redis', $init)->getResource();
-        $redisKeys = $redis->keys(strtolower($keys) . "*");
-
-        $count = count($redisKeys);
-
-        echo PHP_EOL . '| 获取该 keys 结果: ' . sprintf( "\033[1;35m%s\033[0m", $count ) . PHP_EOL;
-
-        if ($count <= 0) die;
-
+    public function main()
+    {
         $keyStr = "\033[0;31m%s\033[0m";
         $LineStr = "\033[0;34m%s\033[0m";
-        foreach ($redisKeys as $redisKey) {
+
+        foreach ($this->redisKeysRes as $redisKey) {
             echo PHP_EOL;
             echo sprintf( $LineStr, sprintf("%'-100s", '-') ) . PHP_EOL;
             echo sprintf( $LineStr, sprintf("%-2s", '|') ) . sprintf($keyStr, $redisKey) . PHP_EOL;
             echo sprintf( $LineStr, sprintf("%'-100s", '-') ) . PHP_EOL;
-            echo $this->getFormatData($redis, $redisKey, $type);
+            echo $this->getFormatData($redisKey);
             echo sprintf( $LineStr, sprintf("%'-100s", '-') ) . PHP_EOL;
-            echo $this->getTime($redis->ttl($redisKey), $LineStr);
+            echo $this->getTime($this->redis->ttl($redisKey), $LineStr);
             echo sprintf( $LineStr, sprintf("%'-100s", '-') ) . PHP_EOL;
             echo PHP_EOL;
         }
@@ -99,18 +109,52 @@ class resetRedisCache
         }
 
         if ($input == 'd') {
-            foreach ($redis->keys(strtolower($keys)."*") as $redisKey) {
-                $redis->del($redisKey);
+            foreach ($this->redisKeysRes as $redisKey) {
+                $this->redis->del($redisKey);
             }
         }
 
         if ($input == 'r') {
-            foreach ($redis->keys(strtolower($keys)."*") as $redisKey) {
-                $redis->set($redisKey, '');
+            foreach ($this->redisKeysRes as $redisKey) {
+                $this->redis->set($redisKey, '');
             }
         }
 
         exit($input == 'd' ? "删除完成" . PHP_EOL : "重置完成" . PHP_EOL);
+    }
+
+    public function getRedisKeysRes()
+    {
+        $redisKeysRes = $this->redis->keys($this->keys . "*");
+
+        if (!$redisKeysRes) {
+            $redisKeysRes = $this->redis->keys(strtolower($this->keys) . "*");
+            if ($redisKeysRes) {
+                $this->keys = strtolower($this->keys) . "*";
+            }
+        }
+
+        if (!$redisKeysRes) {
+            $redisKeysRes = $this->redis->keys(strtoupper($this->keys) . "*");
+            if ($redisKeysRes) {
+                $this->keys = strtoupper($this->keys) . "*";
+            }
+        }
+
+        $count = count($redisKeysRes);
+
+        echo PHP_EOL . '| 获取 keys [ '. $this->keys .' ] 结果: ' . sprintf( "\033[1;35m%s\033[0m", $count ) . PHP_EOL;
+
+        if ($count <= 0) die;
+
+        $this->redisKeysRes = $redisKeysRes;
+    }
+
+    public function setRedisKeyType()
+    {
+        if (isset($this->params["t"])) {
+            $this->type = trim($this->params["t"]);
+        }
     }
 
     public function getTime($time, $LineStr)
@@ -144,18 +188,18 @@ class resetRedisCache
         return $endTime;
     }
 
-    public function getFormatData($redis, $redisKey, $type = 'get')
+    public function getFormatData($redisKey)
     {
         $LineStr = "\033[0;34m%s\033[0m";
-        if ($type == 'get') {
-            $data = $redis->get($redisKey);
+        if ($this->type == 'get') {
+            $data = $this->redis->get($redisKey);
             $jsonData = json_decode($data, true);
             if ($jsonData && json_last_error() === JSON_ERROR_NONE) {
                 $data = json_encode($jsonData, JSON_UNESCAPED_UNICODE);
             }
             return sprintf( $LineStr, sprintf("%-2s", '|') ) . $data . PHP_EOL;
         }
-        $data = $redis->{$type}($redisKey, 0, -1);
+        $data = $this->redis->{$this->type}($redisKey, 0, -1);
         $data = is_array($data) ? json_encode($data, JSON_UNESCAPED_UNICODE) : $data;
         return sprintf( $LineStr, sprintf("%-2s", '|') ) . sprintf( "\033[1;36m%s\033[0m", $data ) . PHP_EOL;
     }
