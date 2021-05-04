@@ -3,8 +3,15 @@
 # 返回普通文本
 #`curl -ks https://v1.hitokoto.cn/?encode=text`
 
+url='https://v1.hitokoto.cn'
+if [ x$1 != x ]; then
+    url='https://v1.hitokoto.cn?'$1
+fi
+
+# echo $url
+
 # 处理 json 数据
-json=`curl -ks https://v1.hitokoto.cn`
+json=`curl -ks $url`
 
 # 写入日志
 `echo $json >> yy.log`
