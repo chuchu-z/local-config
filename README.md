@@ -17,6 +17,7 @@ tree -a
 |-- git-prompt.sh_changeTitle              # git bash 修改标题(已弃用)
 |-- gitUpdateUserInfo.sh                   # 批量修改git 提交作者名称
 |-- gittag                                 # 一键生成 tag 并自动部署
+|-- jq.exe                                 # windows shell jq 工具
 |-- phpcc                                  # phpcc 代码检查工具脚本
 |-- phpcc.ini                              # phpcc 代码检查工具配置
 |-- postManToMarkdown.php                  # postman导出json自动转换markdown格式的接口文档
@@ -26,6 +27,7 @@ tree -a
 |-- resetRedisCache.php                    # redis 自定义操作脚本
 |-- subl                                   # git bash 操作 sublime text 编辑器
 |-- vimrc                                  # vim 配置
-`-- windows.sh                             # windows 系统下自动初始化项目操作
-
+|-- windows.sh                             # windows 系统下自动初始化项目操作
+|-- yy                                     # 一言
+`-- yy.log                                 # 一言日志
 ```
