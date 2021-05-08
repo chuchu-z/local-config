@@ -25,8 +25,13 @@ then
         dir="adminnew"
     fi
 
-    # 最新的 commitId
+    # 默认获取最新的 commitId, 传参进来则用传参的 commitId
     commitId=`git rev-parse --short HEAD`
+    if [ x$4 != x ]; then
+        # gittag xxx 1 0.1 commitId
+        commitId=$4
+    fi
+
     # 当前时间 YYYYmmdd 格式
     date=`date +%Y%m%d`
     # 获取当前分支名
