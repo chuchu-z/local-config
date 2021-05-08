@@ -13,8 +13,10 @@ fi
 # 处理 json 数据
 json=`curl -ks $url`
 
+date=`date`
+
 # 写入日志
-`echo $json >> yy.log`
+`echo "[" $date "]" $json >> ${local}/yy.log`
 
 # content=${json} | jq '.hitokoto' | sed 's/"//g' | tr -d '\n'
 # 失败原因：管道无法直接赋值给变量
