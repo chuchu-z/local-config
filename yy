@@ -18,6 +18,10 @@ date=`date`
 # 写入日志
 `echo "[" $date "]" $json >> ${local}/yy.log`
 
+# json=`cat << EOF
+# {"id":6472,"uuid":"96ee1e66-508d-422f-acf1-b7de9de596ae","hitokoto":"I'm nothing without you.","type":"h","from":"The Flash","from_who":"Clifford Devo","creator":"流幻的光","creator_uid":7468,"reviewer":6844,"commit_from":"web","created_at":"1602837770","length":24}
+# EOF`
+
 # content=${json} | jq '.hitokoto' | sed 's/"//g' | tr -d '\n'
 # 失败原因：管道无法直接赋值给变量
 # 在 Shell 中使用 jq 解析 JSON 格式文本，通过管道读取出 value 后无法存储为 Shell 中的值
@@ -33,13 +37,13 @@ from_who=`echo ${json} | jq '.from_who' | sed 's/"//g' | tr -d '\n'`
 
 echo -e
 
-if [ $from_who == 'null' ]
+if [ "$from_who" == 'null' ]
 then
     from_who='匿名'
 fi
 
 length=`expr ${#content} \* 2`
-printf "\033[1;${random}m%${length}s\033[0m" "—— "$from_who
+printf "\033[1;${random}m%${length}s\033[0m" "—— $from_who"
 
 from=`echo ${json} | jq '.from' | sed 's/"//g' | tr -d '\n'`
 printf "\033[1;${random}m%s\033[0m" "「" $from "」"
@@ -47,3 +51,5 @@ printf "\033[1;${random}m%s\033[0m" "「" $from "」"
 echo -e
 
 # {"id":6175,"uuid":"db2c4ea6-ce7d-4637-8aa8-456f2e4ec874","hitokoto":"知识有两种，一种是你知道的，一种是你知道在哪里能找到的！","type":"k","from":"塞缪尔·约翰逊","from_who":null,"creator":"Mr96","creator_uid":4362,"reviewer":1044,"commit_from":"web","created_at":"1589939352","length":28}
+
+exit 0
