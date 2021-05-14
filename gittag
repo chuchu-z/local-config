@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# 获取本次提交的差异文件
+# 生成发版需要的 tag, 并把tag提交推送到远程
 
 if [ x$1 != x ]
 
@@ -9,11 +9,6 @@ then
     num1='1'
     if [ x$2 != x ]; then
         num1=$2
-    fi
-
-    num2='0.1'
-    if [ x$3 != x ]; then
-        num2=$3
     fi
 
     # 兼容 bitcc_administrator 替换成 newadmin
@@ -27,9 +22,8 @@ then
 
     # 默认获取最新的 commitId, 传参进来则用传参的 commitId
     commitId=`git rev-parse --short HEAD`
-    if [ x$4 != x ]; then
-        # gittag xxx 1 0.1 commitId
-        commitId=$4
+    if [ x$3 != x ]; then
+        commitId=$3
     fi
 
     # 当前时间 YYYYmmdd 格式
@@ -46,7 +40,7 @@ then
     fi
 
     # 拼接 tag
-    tag=$testTag$dir"_"$date"_"$num1"."$commitId"."$num2
+    tag=$testTag$dir"_"$date"_"$num1"."$commitId"."$num2"0.1"
 
     # 获取屏幕宽度
     shellwidth=`stty size|awk '{print $2}'`
@@ -66,7 +60,7 @@ then
     git push origin --tags
 
 else
-    echo -e "git tag -m 缺少参数\n"
+    echo -e "gittag 缺少必要参数\n"
 fi
 
 exit 0
