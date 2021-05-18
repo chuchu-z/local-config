@@ -22,6 +22,14 @@ date=`date`
 # {"id":6472,"uuid":"96ee1e66-508d-422f-acf1-b7de9de596ae","hitokoto":"I'm nothing without you.","type":"h","from":"The Flash","from_who":"Clifford Devo","creator":"流幻的光","creator_uid":7468,"reviewer":6844,"commit_from":"web","created_at":"1602837770","length":24}
 # EOF`
 
+# linux 安裝jq
+# yum install epel-release
+# yum list jq
+# yum install jq
+
+# window 安裝jq
+# https://stedolan.github.io/jq/
+
 # content=${json} | jq '.hitokoto' | sed 's/"//g' | tr -d '\n'
 # 失败原因：管道无法直接赋值给变量
 # 在 Shell 中使用 jq 解析 JSON 格式文本，通过管道读取出 value 后无法存储为 Shell 中的值
