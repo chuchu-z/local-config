@@ -12,6 +12,8 @@ tree -a
 |-- README.md
 |-- .gitconfig                             # git 用户配置
 |-- .minttyrc                              # git bash 主题配置
+|-- cj                                     # 诗词
+|-- cj.log                                 # 诗词日志
 |-- doker_bashrc                           # docker 容器配置文件
 |-- git-prompt.sh                          # git bash 主题配置
 |-- git-prompt.sh_changeTitle              # git bash 修改标题(已弃用)
