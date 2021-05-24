@@ -13,7 +13,7 @@ data=`echo ${json} | jq '.data'`
 date=`date`
 
 # 写入日志
-`echo "[" $date "]" $json >> ${local}/cy.log`
+`echo "[" $date "]" $json >> ${local}/cj.log`
 
 random=$[RANDOM%7+31]
 color="\033[1;${random}m%s\033[0m"
