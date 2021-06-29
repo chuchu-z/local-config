@@ -60,7 +60,7 @@ then
     git push origin --tags
 
 else
-    echo -e "gittag 缺少必要参数\n"
+    echo -e "\033[0;31m \n║ gittag Missing 'git tag -m %' required params \033[0m"
 fi
 
 exit 0
