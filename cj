@@ -8,12 +8,16 @@ fi
 # 处理 json 数据
 json=`curl -ks $url`
 
-data=`echo ${json} | jq '.data'`
+# --compact-output: 使输出紧凑，而不是把每一个JSON对象输出在一行
+data=`echo ${json} | jq --compact-output '.data'`
 
 date=`date`
 
 # 写入日志
-`echo "[" $date "]" $json >> ${local}/cj.log`
+`echo "[" $date "]" ${data} >> ${local}/cj.log`
+
+# 查看日志写入列表
+# cat cj.log | cut -d":" -f 11 | cut -d'"' -f 2
 
 random=$[RANDOM%7+31]
 color="\033[1;${random}m%s\033[0m"

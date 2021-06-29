@@ -18,6 +18,9 @@ date=`date`
 # 写入日志
 `echo "[" $date "]" $json >> ${local}/yy.log`
 
+# 查看日志写入列表
+# cat yy.log | cut -d":" -f 6 | cut -d'"' -f 2
+
 # json=`cat << EOF
 # {"id":6472,"uuid":"96ee1e66-508d-422f-acf1-b7de9de596ae","hitokoto":"I'm nothing without you.","type":"h","from":"The Flash","from_who":"Clifford Devo","creator":"流幻的光","creator_uid":7468,"reviewer":6844,"commit_from":"web","created_at":"1602837770","length":24}
 # EOF`
