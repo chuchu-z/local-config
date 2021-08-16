@@ -15,15 +15,22 @@ then
     dir=${PWD##*/}
     if [ $dir == "bitcc_administrator" ]
     then
-        # dir=$(dirname $(pwd))
-        # dir=${dir##*/}
         dir="adminnew"
     fi
 
     # 默认获取最新的 commitId, 传参进来则用传参的 commitId
     commitId=`git rev-parse --short HEAD`
     if [ x$3 != x ]; then
-        commitId=$3
+
+        `git branch -r --contains ${3} > /dev/null 2>&1`
+
+        if [ $? -ne 0 ]
+        then
+            echo -e "\033[0;31m \n║ error: no such commit ${3} \033[0m"
+            exit 1
+        fi
+
+        commitId=`git rev-parse --short ${3}`
     fi
 
     # 当前时间 YYYYmmdd 格式
@@ -53,7 +60,7 @@ then
     fi
 
     # git 命令操作 && 格式化输出
-    git tag -a $tag -m $1
+    git tag -a $tag -m $1 $commitId
     echo $(seq -s '=' $shellwidth | sed -E 's/[0-9]//g')
     echo -e "║ tag:" $tag
     echo $(seq -s '=' $shellwidth | sed 's/[0-9]//g')
@@ -61,6 +68,7 @@ then
 
 else
     echo -e "\033[0;31m \n║ gittag Missing 'git tag -m %' required params \033[0m"
+    exit 2
 fi
 
 exit 0
