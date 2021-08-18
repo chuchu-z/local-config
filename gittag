@@ -6,6 +6,7 @@ if [ x$1 != x ]
 
 then
 
+    # 今天第几个版本, 默认第一个
     num1='1'
     if [ x$2 != x ]; then
         num1=$2
@@ -21,39 +22,33 @@ then
     # 默认获取最新的 commitId, 传参进来则用传参的 commitId
     commitId=`git rev-parse --short HEAD`
     if [ x$3 != x ]; then
-
         `git branch -r --contains ${3} > /dev/null 2>&1`
-
         if [ $? -ne 0 ]
         then
             echo -e "\033[0;31m \n║ error: no such commit ${3} \033[0m"
             exit 1
         fi
-
         commitId=`git rev-parse --short ${3}`
     fi
 
     # 当前时间 YYYYmmdd 格式
     date=`date +%Y%m%d`
-    # 获取当前分支名
+
+    # 当前分支名
     branch=`git branch --show-current`
 
-    # branch是否包含test, 区分是test分支的tag还是dev分支的tag
+    # 处理以 test 开头的分支 tag
+    testTag=""
     if [[ $branch =~ "test" ]]
     then
         testTag=$branch"#"
-    else
-        testTag=""
     fi
 
     # 拼接 tag
     tag=$testTag$dir"_"$date"_"$num1"."$commitId"."$num2"0.1"
 
-    # 获取屏幕宽度
+    # 控制输出长度
     shellwidth=`stty size|awk '{print $2}'`
-
-    # 判断标签字符长度是否比屏幕宽度的一半还短
-    # 是的话半屏输出 =
     if [ `expr $shellwidth / 2` -gt ${#tag} ]
     then
         shellwidth=`expr $shellwidth / 2`
