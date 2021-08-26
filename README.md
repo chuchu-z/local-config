@@ -19,6 +19,7 @@ tree -a
 |-- git-prompt.sh_changeTitle              # git bash 修改标题(已弃用)
 |-- gitUpdateUserInfo.sh                   # 批量修改git 提交作者名称
 |-- gittag                                 # 一键生成 tag 并自动部署
+|-- gittag-README.md                       # gittag使用说明
 |-- jq.exe                                 # windows shell jq 工具
 |-- phpcc                                  # phpcc 代码检查工具脚本
 |-- phpcc.ini                              # phpcc 代码检查工具配置
