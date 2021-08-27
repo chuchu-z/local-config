@@ -190,10 +190,10 @@ alias -- -='cd -'
 alias ..='cd ..'
 #alias ...='cd ../..'
 alias e='exit'
-alias 'www'='cd /d/MyPHP/WWW/project/workspace/www'
+alias 'www'='cd $www'
 alias 'cdsub'="cd '/c/Users/`whoami`/AppData/Roaming/Sublime Text 3/Packages/User'"
-alias 'home'='cd /d/chuchu-z/local-config'
-alias 'cm'='cphome() { cp $1 /d/chuchu-z/local-config/ ;};cphome'
+alias 'home'='cd $local'
+alias 'cm'='cphome() { cp $1 $local ;};cphome'
 
 ##vim file##
 alias 'vp'='vim /etc/profile'
@@ -209,16 +209,20 @@ alias 'gb'='git branch -vvv'
 alias 'gd'='git diff'
 alias 'cls'='clear'
 alias -- --='git checkout -'
+alias 'show'='git show'
 alias 'charge'='git push charge develop'
 alias 'push'='git push origin `git branch --show-current`'
 alias 'fpush'='git push -f origin `git branch --show-current`'
-alias 'rpull'='git push --rebase origin `git branch --show-current`'
 alias 'pull'='git pull origin `git branch --show-current`'
+alias 'rpull'='git pull origin `git branch --show-current` --rebase'
+alias 'ml'='git log --author=`git config user.name`'
+alias 'gl'='git log'
+alias 'ggl'='git log --graph'
+alias 'lognu'='git log --pretty='%aN' | sort | uniq -c | sort -k1 -n -r'
+alias 'qq'='review "git checkout"'
 
 #alias 'push'='./push.sh'
-#alias 'review'='review() { git status --short | egrep ^*.php | sed "s/^ *//" | egrep ^[^D] | tr -s " "| cut -d" " -f 2 | xargs $1; };review'
 alias 'review'='review() { git status --short | egrep ^*.php | sed "s/^ *//" | egrep ^[^D] | tr -s " "| cut -d" " -f 2 | egrep -v database/migrations | xargs $1;};review'
-alias 'lognu'='git log --pretty='%aN' | sort | uniq -c | sort -k1 -n -r'
 
 ##ssh##
 alias 'suyo'='ssh root@suyo.tech'
@@ -242,4 +246,5 @@ alias 'make'='php artisan make:migration'
 
 ##other##
 alias 'db'='winpty mysql -u root -p'
+alias 'python'='python -i'
 
