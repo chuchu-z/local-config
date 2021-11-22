@@ -21,14 +21,57 @@ then
 
     # 默认获取最新的 commitId, 传参进来则用传参的 commitId
     commitId=`git rev-parse --short HEAD`
+
+    # 判断是否前端包
+    if [ $dir == 'page' ]
+    then
+        # 重新获取完整 commitId
+        commitId=`git rev-parse HEAD`
+        # 从指定位置开始截取6位长度
+        commitId=${commitId: 0 : 6}
+
+        # 判断是否纯数字
+        expr ${commitId} + 1 &>/dev/null
+        if [ $? -eq 0 ];then
+            # 重新获取完成 commitId
+            commitId=`git rev-parse HEAD`
+            # 获取字母开头的位置
+            len=${commitId%%[a-z]*}
+            # 从指定位置开始截取6位长度
+            commitId=${commitId: ${#len} : 6}
+        fi
+    fi
+
+    # 如果是传参指定 commitId, 需要判断 commitId 是否真的存在
     if [ x$3 != x ]; then
+
         `git branch -r --contains ${3} > /dev/null 2>&1`
         if [ $? -ne 0 ]
         then
             echo -e "\033[0;31m \n║ error: no such commit ${3} \033[0m"
             exit 1
         fi
+
         commitId=`git rev-parse --short ${3}`
+
+        if [ $dir == 'page' ]
+        then
+            commitId=${3}
+            # 从指定位置开始截取6位长度
+            commitId=${commitId: 0 : 6}
+
+            # 判断是否纯数字
+            expr ${commitId} + 1 &>/dev/null
+            if [ $? -eq 0 ];then
+                # 重新获取完成 commitId
+                commitId=${3}
+                # 获取字母开头的位置
+                len=${commitId%%[a-z]*}
+                # 从指定位置开始截取6位长度
+                commitId=${commitId: ${#len} : 6}
+            fi
+        fi
+
     fi
 
     # 当前时间 YYYYmmdd 格式
@@ -44,8 +87,13 @@ then
         testTag=$branch"#"
     fi
 
-    # 拼接 tag
-    tag=$testTag$dir"_"$date"_"$num1"."$commitId"."$num2"0.1"
+    # 拼接 tag, 前端与后端tag规则不一样
+    if [ $dir == 'page' ]
+    then
+        tag=$testTag$dir"_"$date"_"$num1"_"$commitId"_"$num2$num1
+    else
+        tag=$testTag$dir"_"$date"_"$num1"."$commitId"."$num2"0.1"
+    fi
 
     # 控制输出长度
     shellwidth=`stty size|awk '{print $2}'`
