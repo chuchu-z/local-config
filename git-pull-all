@@ -1,0 +1,23 @@
+#!/bin/bash
+
+pub_branch="dev"
+projectArr=("aexlib" "comm_lib" "svr" "task_server" "newadmin/bitcc_administrator/" "user_center" "data_center/data_center")
+
+www="/d/MyPHP/WWW/project/workspace/www/"
+
+for project in ${projectArr[@]}
+do
+    echo -e "\n.................... loading $project ....................\n"
+
+    `cd ${www}${project}`
+
+    curr_branch=`git branch --show-current`
+
+    if [ ${curr_branch} != ${pub_branch} ]; then
+       git checkout ${pub_branch}
+       branch=`git branch --show-current`
+       echo ${branch}
+    fi
+
+   git pull --rebase
+done
