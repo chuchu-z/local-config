@@ -17,6 +17,7 @@ tree -a
 |-- doker_bashrc                           # docker 容器配置文件
 |-- git-prompt.sh                          # git bash 主题配置
 |-- git-prompt.sh_changeTitle              # git bash 修改标题(已弃用)
+|-- git-pull-all                           # git 一键pull所有仓库
 |-- gitUpdateUserInfo.sh                   # 批量修改git 提交作者名称
 |-- gittag                                 # 一键生成 tag 并自动部署
 |-- gittag-README.md                       # gittag使用说明
