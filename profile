@@ -218,6 +218,7 @@ alias 'rpull'='git pull origin `git branch --show-current` --rebase'
 alias 'ml'='git log --author=`git config user.name`'
 alias 'gl'='git log'
 alias 'ggl'='git log --graph'
+alias 'gglp'='git log --graph --pretty=oneline --abbrev-commit'
 alias 'lognu'='git log --pretty='%aN' | sort | uniq -c | sort -k1 -n -r'
 alias 'qq'='review "git checkout"'
 
@@ -247,4 +248,4 @@ alias 'make'='php artisan make:migration'
 ##other##
 alias 'db'='winpty mysql -u root -p'
 alias 'python'='python -i'
-
+alias 'vl'='tail -f /d/MyPHP/WWW/project/logs/nginx/chuchu_error.log'
