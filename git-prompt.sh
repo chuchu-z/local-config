@@ -14,7 +14,10 @@ else
     PS1="$PS1"'\[\033[32;1m\]'     # 高亮绿色
     PS1="$PS1"'➜  '               # unicode 字符，右箭头
     PS1="$PS1"'\[\033[33;1m\]'     # 高亮黄色
-    PS1="$PS1"'\w'                 # 当前目录
+    PS1="$PS1"'\W'                 # 当前目录
+    PS1="$PS1"'\[\033[34;1m\]'     # 高亮蓝色
+    PS1="$PS1"' [\t]'              # 当前时间
+
     if test -z "$WINELOADERNOEXEC"
     then
         GIT_EXEC_PATH="$(git --exec-path 2>/dev/null)"
