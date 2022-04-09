@@ -10,6 +10,7 @@ tree -a
 ```
 .
 |-- README.md
+|-- chuchu-z.css                           # typora主题配置
 |-- .gitconfig                             # git 用户配置
 |-- .minttyrc                              # git bash 主题配置
 |-- cj                                     # 诗词
