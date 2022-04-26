@@ -193,7 +193,8 @@ alias e='exit'
 alias 'www'='cd $www'
 alias 'cdsub'="cd '/c/Users/`whoami`/AppData/Roaming/Sublime Text 3/Packages/User'"
 alias 'home'='cd $local'
-alias 'cm'='cphome() { cp $1 $local ;};cphome'
+alias 'blog'='cd /d/MyPHP/WWW/blog'
+alias 'ch'='cphome() { cp $1 $local ;};cphome'
 
 ##vim file##
 alias 'vp'='vim /etc/profile'
@@ -221,6 +222,7 @@ alias 'ggl'='git log --graph'
 alias 'gglp'='git log --graph --pretty=oneline --abbrev-commit'
 alias 'lognu'='git log --pretty='%aN' | sort | uniq -c | sort -k1 -n -r'
 alias 'qq'='review "git checkout"'
+alias 'rsa'='cat ~/.ssh/id_rsa.pub'
 
 #alias 'push'='./push.sh'
 alias 'review'='review() { git status --short | egrep ^*.php | sed "s/^ *//" | egrep ^[^D] | tr -s " "| cut -d" " -f 2 | egrep -v database/migrations | xargs $1;};review'
@@ -238,8 +240,8 @@ alias 'chuchu'='ssh zhouyongshan@192.168.1.3'
 alias 'dkre'='docker-compose restart'
 alias 'dkup'='docker-compose up'
 alias 'dkop'='docker-compose stop'
-alias 'dkphp'="winpty docker exec -it `docker ps -a| grep testphp7 | awk '{print $1}'` bash"
-alias 'dkphp5'="winpty docker exec -it `docker ps -a| grep testphp5 | awk '{print $1}'` bash"
+alias 'dkphp'="winpty docker exec -it `docker ps --filter='name=php7' -q` bash"
+alias 'dkphp5'="winpty docker exec -it `docker ps --filter='name=php5' -q` bash"
 
 ##artisan##
 alias 'migrate'='php artisan migrate'
