@@ -47,26 +47,29 @@ esac
 unset MINGW_MOUNT_POINT
 . '/etc/msystem'
 case "${MSYSTEM}" in
-MINGW32)
+MINGW*|CLANG*|UCRT*)
   MINGW_MOUNT_POINT="${MINGW_PREFIX}"
   PATH="${MINGW_MOUNT_POINT}/bin:${MSYS2_PATH}${ORIGINAL_PATH:+:${ORIGINAL_PATH}}"
   PKG_CONFIG_PATH="${MINGW_MOUNT_POINT}/lib/pkgconfig:${MINGW_MOUNT_POINT}/share/pkgconfig"
+  PKG_CONFIG_SYSTEM_INCLUDE_PATH="${MINGW_MOUNT_POINT}/include"
+  PKG_CONFIG_SYSTEM_LIBRARY_PATH="${MINGW_MOUNT_POINT}/lib"
   ACLOCAL_PATH="${MINGW_MOUNT_POINT}/share/aclocal:/usr/share/aclocal"
   MANPATH="${MINGW_MOUNT_POINT}/local/man:${MINGW_MOUNT_POINT}/share/man:${MANPATH}"
-  ;;
-MINGW64)
-  MINGW_MOUNT_POINT="${MINGW_PREFIX}"
-  PATH="${MINGW_MOUNT_POINT}/bin:${MSYS2_PATH}${ORIGINAL_PATH:+:${ORIGINAL_PATH}}"
-  PKG_CONFIG_PATH="${MINGW_MOUNT_POINT}/lib/pkgconfig:${MINGW_MOUNT_POINT}/share/pkgconfig"
-  ACLOCAL_PATH="${MINGW_MOUNT_POINT}/share/aclocal:/usr/share/aclocal"
-  MANPATH="${MINGW_MOUNT_POINT}/local/man:${MINGW_MOUNT_POINT}/share/man:${MANPATH}"
+  INFOPATH="${MINGW_MOUNT_POINT}/local/info:${MINGW_MOUNT_POINT}/share/info:${INFOPATH}"
   ;;
 *)
   PATH="${MSYS2_PATH}:/opt/bin${ORIGINAL_PATH:+:${ORIGINAL_PATH}}"
   PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/share/pkgconfig:/lib/pkgconfig"
 esac
 
+CONFIG_SITE="/etc/config.site"
+
 MAYBE_FIRST_START=false
+if [ ! -d "${HOME}" ]; then
+  printf "\e[1;32mMSYS2 is starting for the first time. Executing the initial setup.\e[1;0m\n" 1>&2;
+  MAYBE_FIRST_START=true
+fi
+
 SYSCONFDIR="${SYSCONFDIR:=/etc}"
 
 # TMP and TEMP as defined in the Windows environment must be kept
@@ -74,18 +77,8 @@ SYSCONFDIR="${SYSCONFDIR:=/etc}"
 # them set to the default Windows temporary directory or unset
 # can have unexpected consequences for msys2 apps, so we define 
 # our own to match GNU/Linux behaviour.
-#
-# Note: this uppercase/lowercase workaround does not seem to work.
-# In fact, it has been removed from Cygwin some years ago. See:
-#
-#     * https://cygwin.com/git/gitweb.cgi?p=cygwin-apps/base-files.git;a=commitdiff;h=3e54b07
-#     * https://cygwin.com/git/gitweb.cgi?p=cygwin-apps/base-files.git;a=commitdiff;h=7f09aef
-#
 ORIGINAL_TMP="${ORIGINAL_TMP:-${TMP}}"
 ORIGINAL_TEMP="${ORIGINAL_TEMP:-${TEMP}}"
-#unset TMP TEMP
-#tmp=$(exec cygpath -w "$ORIGINAL_TMP" 2> /dev/null)
-#temp=$(exec cygpath -w "$ORIGINAL_TEMP" 2> /dev/null)
 #TMP="/tmp"
 #TEMP="/tmp"
 case "$TMP" in *\\*) TMP="$(cygpath -m "$TMP")";; esac
@@ -95,14 +88,6 @@ test -d "$TMPDIR" || test ! -d "$TMP" || {
   export TMPDIR
 }
 
-
-print_flags ()
-{
-  (( $1 & 0x0002 )) && echo -n "binary" || echo -n "text"
-  (( $1 & 0x0010 )) && echo -n ",exec"
-  (( $1 & 0x0040 )) && echo -n ",cygexec"
-  (( $1 & 0x0100 )) && echo -n ",notexec"
-}
 
 # Shell dependent settings
 profile_d ()
@@ -152,35 +137,13 @@ then
   export ACLOCAL_PATH
 fi
 
-export PATH MANPATH INFOPATH PKG_CONFIG_PATH USER TMP TEMP HOSTNAME PS1 SHELL tmp temp ORIGINAL_TMP ORIGINAL_TEMP ORIGINAL_PATH
+export PATH MANPATH INFOPATH PKG_CONFIG_PATH PKG_CONFIG_SYSTEM_INCLUDE_PATH PKG_CONFIG_SYSTEM_LIBRARY_PATH USER TMP TEMP HOSTNAME PS1 SHELL ORIGINAL_TMP ORIGINAL_TEMP ORIGINAL_PATH CONFIG_SITE
 unset PATH_SEPARATOR
 
 if [ "$MAYBE_FIRST_START" = "true" ]; then
-
-  if [ -f "/usr/bin/update-ca-trust" ]
-  then 
-    sh /usr/bin/update-ca-trust
-  fi
-
-  clear
-  echo
-  echo
-  echo "###################################################################"
-  echo "#                                                                 #"
-  echo "#                                                                 #"
-  echo "#                   C   A   U   T   I   O   N                     #"
-  echo "#                                                                 #"
-  echo "#                  This is first start of MSYS2.                  #"
-  echo "#       You MUST restart shell to apply necessary actions.        #"
-  echo "#                                                                 #"
-  echo "#                                                                 #"
-  echo "###################################################################"
-  echo
-  echo
+  printf "\e[1;32mInitial setup complete. MSYS2 is now ready to use.\e[1;0m\n" 1>&2;
 fi
 unset MAYBE_FIRST_START
-
-#export PS1="\\u@windows[\t]:\w\$(__git_ps1 '(%s)')\$ "
 
 #[alias]
 
@@ -228,20 +191,14 @@ alias 'rsa'='cat ~/.ssh/id_rsa.pub'
 alias 'review'='review() { git status --short | egrep ^*.php | sed "s/^ *//" | egrep ^[^D] | tr -s " "| cut -d" " -f 2 | egrep -v database/migrations | xargs $1;};review'
 
 ##ssh##
-alias 'suyo'='ssh root@suyo.tech'
-alias 'weihaha'='ssh wenjunqiang@120.76.192.53'
-alias 'lesson'='ssh root@1024lesson.com'
-alias 'bmyy'='ssh root@bmyywh.com'
-alias 'shendu'='ssh root@62.234.95.35'
-alias 'wcc'='ssh chuchu@47.107.130.212'
 alias 'chuchu'='ssh zhouyongshan@192.168.1.3'
 
 ##Docker##
-alias 'dkre'='docker-compose restart'
-alias 'dkup'='docker-compose up'
-alias 'dkop'='docker-compose stop'
-alias 'dkphp'="winpty docker exec -it `docker ps --filter='name=php7' -q` bash"
-alias 'dkphp5'="winpty docker exec -it `docker ps --filter='name=php5' -q` bash"
+#alias 'dkre'='docker-compose restart'
+#alias 'dkup'='docker-compose up'
+#alias 'dkop'='docker-compose stop'
+#alias 'dkphp'="winpty docker exec -it `docker ps --filter='name=php7' -q` bash"
+#alias 'dkphp5'="winpty docker exec -it `docker ps --filter='name=php5' -q` bash"
 
 ##artisan##
 alias 'migrate'='php artisan migrate'
@@ -251,3 +208,5 @@ alias 'make'='php artisan make:migration'
 alias 'db'='winpty mysql -u root -p'
 alias 'python'='python -i'
 alias 'vl'='tail -f /d/MyPHP/WWW/project/logs/nginx/chuchu_error.log'
+alias 'dff'='df -hl'
+alias 'duh'='duh() { du -h --max-depth=$1 ;};duh'
