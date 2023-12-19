@@ -151,6 +151,7 @@ unset MAYBE_FIRST_START
 alias -- -='cd -'
 #alias .='cd ~'
 alias ..='cd ..'
+alias 'll'='ls -al'
 #alias ...='cd ../..'
 alias e='exit'
 alias 'www'='cd $www'
@@ -158,6 +159,7 @@ alias 'cdsub'="cd '/c/Users/`whoami`/AppData/Roaming/Sublime Text 3/Packages/Use
 alias 'home'='cd $local'
 alias 'blog'='cd /d/MyPHP/WWW/blog'
 alias 'ch'='cphome() { cp $1 $local ;};cphome'
+alias 'webview'='cd /d/Android/Projects/webview'
 
 ##vim file##
 alias 'vp'='vim /etc/profile'
@@ -191,14 +193,23 @@ alias 'rsa'='cat ~/.ssh/id_rsa.pub'
 alias 'review'='review() { git status --short | egrep ^*.php | sed "s/^ *//" | egrep ^[^D] | tr -s " "| cut -d" " -f 2 | egrep -v database/migrations | xargs $1;};review'
 
 ##ssh##
-alias 'chuchu'='ssh zhouyongshan@192.168.1.3'
+alias 'chuchu'='ssh -o ServerAliveInterval=30 zhouyongshan@192.168.1.3'
+alias '188'='ssh -o ServerAliveInterval=30 root@50.93.194.188'
+alias '121'='ssh -o ServerAliveInterval=30 root@50.93.194.121'
+alias '118'='ssh -o ServerAliveInterval=30 root@50.93.194.118'
+alias '210'='ssh -o ServerAliveInterval=30 root@47.90.137.210'
+alias '151'='ssh -o ServerAliveInterval=30 root@50.93.194.151'
+alias '216'='ssh -o ServerAliveInterval=30 root@8.213.136.216'
 
 ##Docker##
-#alias 'dkre'='docker-compose restart'
-#alias 'dkup'='docker-compose up'
-#alias 'dkop'='docker-compose stop'
+alias 'dkre'='docker-compose restart'
+alias 'dkup'='docker-compose up -d'
+alias 'dkop'='docker-compose stop'
 #alias 'dkphp'="winpty docker exec -it `docker ps --filter='name=php7' -q` bash"
 #alias 'dkphp5'="winpty docker exec -it `docker ps --filter='name=php5' -q` bash"
+#alias 'dkphp'="winpty docker exec -it `docker ps --filter='name=php' -q` bash"
+#alias 'dkzsh'="winpty docker exec -it `docker ps --filter='name=zsh' -q` bash"
+alias 'hy'="winpty docker exec -it `docker ps --filter='name=my-hyperf' -q` bash"
 
 ##artisan##
 alias 'migrate'='php artisan migrate'
@@ -206,7 +217,9 @@ alias 'make'='php artisan make:migration'
 
 ##other##
 alias 'db'='winpty mysql -u root -p'
-alias 'python'='python -i'
+#alias 'python'='python -i'
+alias 'python3'='python'
 alias 'vl'='tail -f /d/MyPHP/WWW/project/logs/nginx/chuchu_error.log'
 alias 'dff'='df -hl'
 alias 'duh'='duh() { du -h --max-depth=$1 ;};duh'
+

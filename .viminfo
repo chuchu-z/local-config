@@ -1,0 +1,221 @@
+# 这个 viminfo 文件是由 Vim 9.0 生成的。
+# 如果要自行修改请特别小心！
+
+# Viminfo version
+|1,4
+
+# 此文件建立时 'encoding' 的值
+*encoding=utf-8
+
+
+# hlsearch on (H) or off (h):
+~h
+# 命令行 历史记录 (从新到旧):
+:wq
+|2,0,1682306587,,"wq"
+:q
+|2,0,1682306552,,"q"
+
+# 查找字符串 历史记录 (从新到旧):
+
+# 表达式 历史记录 (从新到旧):
+
+# 输入行 历史记录 (从新到旧):
+
+# 输入行 历史记录 (从新到旧):
+
+# 寄存器:
+""1	LINE	0
+	if test -f /etc/profile.d/git-sdk.sh
+	then
+		TITLEPREFIX=SDK-${MSYSTEM#MINGW}
+	else
+		TITLEPREFIX=$MSYSTEM
+	fi
+	
+	if test -f ~/.config/git/git-prompt.sh
+	then
+		. ~/.config/git/git-prompt.sh
+	else
+		PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]' # set window title
+		PS1="$PS1"'\n'                 # new line
+		PS1="$PS1"'\[\033[32m\]'       # change to green
+		PS1="$PS1"'\u@\h '             # user@host<space>
+		PS1="$PS1"'\[\033[35m\]'       # change to purple
+		PS1="$PS1"'$MSYSTEM '          # show MSYSTEM
+		PS1="$PS1"'\[\033[33m\]'       # change to brownish yellow
+		PS1="$PS1"'\w'                 # current working directory
+		if test -z "$WINELOADERNOEXEC"
+		then
+			GIT_EXEC_PATH="$(git --exec-path 2>/dev/null)"
+			COMPLETION_PATH="${GIT_EXEC_PATH%/libexec/git-core}"
+			COMPLETION_PATH="${COMPLETION_PATH%/lib/git-core}"
+			COMPLETION_PATH="$COMPLETION_PATH/share/git/completion"
+			if test -f "$COMPLETION_PATH/git-prompt.sh"
+			then
+				. "$COMPLETION_PATH/git-completion.bash"
+				. "$COMPLETION_PATH/git-prompt.sh"
+				PS1="$PS1"'\[\033[36m\]'  # change color to cyan
+				PS1="$PS1"'`__git_ps1`'   # bash function
+			fi
+		fi
+		PS1="$PS1"'\[\033[0m\]'        # change color
+		PS1="$PS1"'\n'                 # new line
+		PS1="$PS1"'$ '                 # prompt: always $
+	fi
+	
+	MSYS2_PS1="$PS1"               # for detection by MSYS2 SDK's bash.basrc
+	
+	# Evaluate all user-specific Bash completion scripts (if any)
+	if test -z "$WINELOADERNOEXEC"
+	then
+		for c in "$HOME"/bash_completion.d/*.bash
+		do
+			# Handle absence of any scripts (or the folder) gracefully
+			test ! -f "$c" ||
+			. "$c"
+		done
+	fi
+|3,1,1,1,50,0,1682306580,"if test -f /etc/profile.d/git-sdk.sh","then","	TITLEPREFIX=SDK-${MSYSTEM#MINGW}","else","	TITLEPREFIX=$MSYSTEM","fi","","if test -f ~/.config/git/git-prompt.sh","then","	. ~/.config/git/git-prompt.sh","else","	PS1='\\[\\033]0;$TITLEPREFIX:$PWD\\007\\]' # set window title","	PS1=\"$PS1\"'\\n'                 # new line","	PS1=\"$PS1\"'\\[\\033[32m\\]'       # change to green","	PS1=\"$PS1\"'\\u@\\h '             # user@host<space>",>57
+|<"	PS1=\"$PS1\"'\\[\\033[35m\\]'       # change to purple","	PS1=\"$PS1\"'$MSYSTEM '          # show MSYSTEM","	PS1=\"$PS1\"'\\[\\033[33m\\]'       # change to brownish yellow","	PS1=\"$PS1\"'\\w'                 # current working directory","	if test -z \"$WINELOADERNOEXEC\"","	then","		GIT_EXEC_PATH=\"$(git --exec-path 2>/dev/null)\"","		COMPLETION_PATH=\"${GIT_EXEC_PATH%/libexec/git-core}\"","		COMPLETION_PATH=\"${COMPLETION_PATH%/lib/git-core}\"",>61
+|<"		COMPLETION_PATH=\"$COMPLETION_PATH/share/git/completion\"","		if test -f \"$COMPLETION_PATH/git-prompt.sh\"","		then","			. \"$COMPLETION_PATH/git-completion.bash\"","			. \"$COMPLETION_PATH/git-prompt.sh\"","			PS1=\"$PS1\"'\\[\\033[36m\\]'  # change color to cyan","			PS1=\"$PS1\"'`__git_ps1`'   # bash function","		fi","	fi","	PS1=\"$PS1\"'\\[\\033[0m\\]'        # change color","	PS1=\"$PS1\"'\\n'                 # new line","	PS1=\"$PS1\"'$ '                 # prompt: always $",>4
+|<"fi","","MSYS2_PS1=\"$PS1\"               # for detection by MSYS2 SDK's bash.basrc","","# Evaluate all user-specific Bash completion scripts (if any)","if test -z \"$WINELOADERNOEXEC\"","then","	for c in \"$HOME\"/bash_completion.d/*.bash","	do","		# Handle absence of any scripts (or the folder) gracefully","		test ! -f \"$c\" ||","		. \"$c\"","	done","fi"
+
+# 文件标记:
+'0  38  15  /etc/profile.d/git-prompt.sh
+|4,48,38,15,1682306587,"/etc/profile.d/git-prompt.sh"
+'1  1  18  /etc/profile.d/git-prompt.sh
+|4,49,1,18,1682306552,"/etc/profile.d/git-prompt.sh"
+'2  1  18  /etc/profile.d/git-prompt.sh
+|4,50,1,18,1682306552,"/etc/profile.d/git-prompt.sh"
+'3  15  36  ~/git-prompt.sh
+|4,51,15,36,1682306497,"~/git-prompt.sh"
+'4  1  0  /etc/profile.d/git-prompt.sh
+|4,52,1,0,1682306384,"/etc/profile.d/git-prompt.sh"
+'5  1  0  /etc/profile.d/git-prompt.sh
+|4,53,1,0,1682306384,"/etc/profile.d/git-prompt.sh"
+'6  51  0  /etc/profile.d/git-prompt.sh
+|4,54,51,0,1682306384,"/etc/profile.d/git-prompt.sh"
+'7  51  0  /etc/profile.d/git-prompt.sh
+|4,55,51,0,1682306384,"/etc/profile.d/git-prompt.sh"
+'8  9  0  ~/.bashrc
+|4,56,9,0,1682306309,"~/.bashrc"
+
+# 跳转列表 (从新到旧):
+-'  38  15  /etc/profile.d/git-prompt.sh
+|4,39,38,15,1682306587,"/etc/profile.d/git-prompt.sh"
+-'  1  0  /etc/profile.d/git-prompt.sh
+|4,39,1,0,1682306580,"/etc/profile.d/git-prompt.sh"
+-'  1  18  /etc/profile.d/git-prompt.sh
+|4,39,1,18,1682306552,"/etc/profile.d/git-prompt.sh"
+-'  51  0  /etc/profile.d/git-prompt.sh
+|4,39,51,0,1682306536,"/etc/profile.d/git-prompt.sh"
+-'  15  36  ~/git-prompt.sh
+|4,39,15,36,1682306497,"~/git-prompt.sh"
+-'  15  36  ~/git-prompt.sh
+|4,39,15,36,1682306497,"~/git-prompt.sh"
+-'  15  36  ~/git-prompt.sh
+|4,39,15,36,1682306497,"~/git-prompt.sh"
+-'  15  36  ~/git-prompt.sh
+|4,39,15,36,1682306497,"~/git-prompt.sh"
+-'  1  0  ~/git-prompt.sh
+|4,39,1,0,1682306443,"~/git-prompt.sh"
+-'  1  0  ~/git-prompt.sh
+|4,39,1,0,1682306443,"~/git-prompt.sh"
+-'  1  0  ~/git-prompt.sh
+|4,39,1,0,1682306443,"~/git-prompt.sh"
+-'  1  0  ~/git-prompt.sh
+|4,39,1,0,1682306443,"~/git-prompt.sh"
+-'  51  0  /etc/profile.d/git-prompt.sh
+|4,39,51,0,1682306384,"/etc/profile.d/git-prompt.sh"
+-'  51  0  /etc/profile.d/git-prompt.sh
+|4,39,51,0,1682306384,"/etc/profile.d/git-prompt.sh"
+-'  1  0  /etc/profile.d/git-prompt.sh
+|4,39,1,0,1682306355,"/etc/profile.d/git-prompt.sh"
+-'  1  0  /etc/profile.d/git-prompt.sh
+|4,39,1,0,1682306355,"/etc/profile.d/git-prompt.sh"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  9  0  ~/.bashrc
+|4,39,9,0,1682306309,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+-'  1  0  ~/.bashrc
+|4,39,1,0,1682306296,"~/.bashrc"
+
+# 文件内的标记历史记录 (从新到旧):
+
+> /etc/profile.d/git-prompt.sh
+	*	1682306586	0
+	"	38	15
+	^	38	16
+	.	38	15
+	+	1	36
+	+	38	15
+
+> ~/git-prompt.sh
+	*	1682306488	0
+	"	15	36
+	^	15	37
+	.	15	36
+	+	15	36
+
+> ~/.bashrc
+	*	1682306308	0
+	"	9	0
